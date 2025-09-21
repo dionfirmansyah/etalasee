@@ -10,14 +10,10 @@ export function middleware(request: NextRequest) {
   const host = request.headers.get("host");
   const subdomain = host?.split(".")[0];
 
-  if (
-    subdomain === "www" ||
-    subdomain === "localhost:3000" ||
-    subdomain === "etalasee.online" ||
-    subdomain === rootDomain ||
-    url.pathname.endsWith("/not-found") ||
-    url.pathname.endsWith("/plan-expired")
-  ) {
+  console.log(subdomain === rootDomain)
+
+
+  if (subdomain === "www" || subdomain === rootDomain) {
     return NextResponse.next();
   }
 
