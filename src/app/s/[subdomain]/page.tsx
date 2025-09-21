@@ -1,15 +1,9 @@
-interface EtalaseTenantPageProps {
-  params: {
-    subdomain: Promise<string | undefined>;
-  };
-}
-
-export default async function EtalaseTenantPage({ params }: EtalaseTenantPageProps) {
-  const subdomain = params.subdomain;
-
+export default async function EtalaseTenantPage(
+  { params }: { params: { subdomain: string } }
+) {
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold">Etalase : {subdomain}</h1>
+      <h1 className="text-2xl font-bold">Etalase: {params.subdomain}</h1>
       <p>loading..</p>
     </div>
   );
