@@ -1,6 +1,6 @@
 interface DashboardTenantPageProps {
   params: {
-    subdomain: string;
+    subdomain: Promise<string | undefined>;
   };
 }
 

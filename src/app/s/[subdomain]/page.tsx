@@ -1,6 +1,6 @@
 interface EtalaseTenantPageProps {
   params: {
-    subdomain: string;
+    subdomain: Promise<string | undefined>;
   };
 }
 
