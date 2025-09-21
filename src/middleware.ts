@@ -12,6 +12,8 @@ export function middleware(request: NextRequest) {
 
   if (
     subdomain === "www" ||
+    subdomain === "localhost:3000" ||
+    subdomain === "etalasee.online" ||
     subdomain === rootDomain ||
     url.pathname.endsWith("/not-found") ||
     url.pathname.endsWith("/plan-expired")
