@@ -1,28 +1,57 @@
-import { NextRequest, NextResponse } from 'next/server';
 
-export function middleware(req: NextRequest) {
-  const url = req.nextUrl.clone();
-  const host = req.headers.get('host') || '';
-  const mainDomain = process.env.NEXT_PUBLIC_MAIN_DOMAIN || 'etalasee.online';
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { rootDomain } from "./lib/utils";
 
-  // root domain (etalasee.online / www.etalasee.online / localhost)
-  if (host === mainDomain || host === `www.${mainDomain}` || host.startsWith('localhost')) {
+
+
+export function middleware(request: NextRequest) {
+  const url = request.nextUrl.clone();
+  const host = request.headers.get("host");
+  const subdomain = host?.split(".")[0];
+
+  if (
+    subdomain === "www" ||
+    subdomain === rootDomain ||
+    url.pathname.endsWith("/not-found") ||
+    url.pathname.endsWith("/plan-expired")
+  ) {
     return NextResponse.next();
   }
 
-  // subdomain tenant
-  if (host.endsWith(`.${mainDomain}`)) {
-    const tenant = host.replace(`.${mainDomain}`, '');
-    const res = NextResponse.next();
-    res.headers.set('x-tenant', tenant);
-    return res;
+  const clientData = isValidSlug(subdomain);
+
+  if (!clientData.valid) {
+    return NextResponse.rewrite(new URL('/not-found', request.url));
   }
 
-  // fallback
-  url.pathname = '/landing';
-  return NextResponse.rewrite(url);
+  if (!clientData.isSubscribed) {
+    return NextResponse.redirect(
+      new URL(`${url.protocol}//${rootDomain}/plan-expired`, request.url)
+    );
+  }
+
+
+  return NextResponse.rewrite(
+    new URL(`/s/${subdomain}${url.pathname}${url.search}${url.hash}`, request.url)
+  );
 }
 
+function isValidSlug(slug: string | undefined): {
+  valid: boolean;
+  isSubscribed: boolean;
+} {
+  if (!slug) return { valid: false, isSubscribed: false };
+
+  const clients = ["client1", "client2", "client3"];
+
+  return {
+    valid: clients.includes(slug),
+    isSubscribed: true,
+  };
+}
+
+// Optionally, you can specify which routes this middleware should run on
 export const config = {
-  matcher: ['/((?!_next|static|favicon.ico).*)'],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
