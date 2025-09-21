@@ -1,6 +1,7 @@
+import { NextPage } from "next";
 
-export default async function DashboardTenantPage({ params }: { params: { subdomain: string } }) {
-    const subdomain = params.subdomain;
+const DashboardTenantPage: NextPage<{ params: { subdomain: string } }> = async ({ params }) => {
+    const subdomain =  params.subdomain;
 
 
   return (
@@ -12,3 +13,5 @@ export default async function DashboardTenantPage({ params }: { params: { subdom
     </div>
   );
 }
+
+export default DashboardTenantPage;
