@@ -1,17 +1,16 @@
-import { NextPage } from "next";
+interface EtalaseTenantPageProps {
+  params: {
+    subdomain: string;
+  };
+}
 
-const EtalaseTenantPage: NextPage<{ params: { subdomain: string } }> = async ({ params }) => {
-    const subdomain =  params.subdomain;
-
+export default async function EtalaseTenantPage({ params }: EtalaseTenantPageProps) {
+  const { subdomain } = params;
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold">
-        Etalase:  {subdomain}
-      </h1>
+      <h1 className="text-2xl font-bold">Etalase : {subdomain}</h1>
       <p>loading..</p>
     </div>
   );
 }
-
-export default EtalaseTenantPage;
