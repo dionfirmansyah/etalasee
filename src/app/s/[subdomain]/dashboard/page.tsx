@@ -1,4 +1,3 @@
-
 export default async function DashboardTenantPage({ params }: { params: { subdomain: string } }) {
     const subdomain = params.subdomain;
 
