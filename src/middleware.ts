@@ -10,6 +10,8 @@ export function middleware(request: NextRequest) {
   const host = request.headers.get("host");
   const subdomain = host?.split(".")[0];
 
+  console.log(subdomain)
+  console.log(rootDomain)
   console.log(subdomain === rootDomain)
 
 
