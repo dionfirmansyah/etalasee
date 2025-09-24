@@ -1,13 +1,12 @@
+'use client';
+import { useOAuthIDB } from '@/hooks/useOAuthIDB';
 
 export default function Page() {
-  return (
-
-    <div className="p-6">
-    <h1 className="text-2xl font-bold">
-      ETALASEE ONLINE
-    </h1>
-    <p>DASHBOARD ADMIN PAGE</p>
-    </div>
-
-  );
+    const { logout } = useOAuthIDB();
+    return (
+        <div>
+            <p>halaman dashboard</p>
+            <button onClick={logout}>Logout</button>
+        </div>
+    );
 }
